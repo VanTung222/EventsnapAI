@@ -5,8 +5,10 @@ import OrganizerLayout from '../../layouts/OrganizerLayout';
 import CheckInLayout from '../../layouts/CheckInLayout';
 import AdminLayout from '../../layouts/AdminLayout';
 import HomePage from '../../pages/public/HomePage';
-import LoginPage from '../../pages/public/LoginPage';
-import RegisterPage from '../../pages/public/RegisterPage';
+import EventDiscoveryPage from '../../pages/public/EventDiscoveryPage';
+import EventDetailPage from '../../pages/public/EventDetailPage';
+import AuthAccessPage from '../../pages/public/AuthAccessPage';
+import AuthRecoveryPage from '../../pages/public/AuthRecoveryPage';
 import DashboardPage from '../../pages/attendee/DashboardPage';
 import EventsPage from '../../pages/organizer/EventsPage';
 import CheckInPage from '../../pages/check-in/CheckInPage';
@@ -18,8 +20,13 @@ export const routes: RouteObject[] = [
     element: <PublicLayout />,
     children: [
       { index: true, element: <HomePage /> },
-      { path: 'login', element: <LoginPage /> },
-      { path: 'register', element: <RegisterPage /> },
+      { path: 'events', element: <EventDiscoveryPage /> },
+      { path: 'events/:eventId', element: <EventDetailPage /> },
+      { path: 'login', element: <AuthAccessPage mode="login" /> },
+      { path: 'register', element: <AuthAccessPage mode="register" /> },
+      { path: 'forgot-password', element: <AuthRecoveryPage mode="forgot" /> },
+      { path: 'reset-password', element: <AuthRecoveryPage mode="reset" /> },
+      { path: 'verify-email', element: <AuthRecoveryPage mode="verify" /> },
     ],
   },
   {
