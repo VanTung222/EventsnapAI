@@ -10,6 +10,9 @@ import EventDetailPage from '../../pages/public/EventDetailPage';
 import AuthAccessPage from '../../pages/public/AuthAccessPage';
 import AuthRecoveryPage from '../../pages/public/AuthRecoveryPage';
 import DashboardPage from '../../pages/attendee/DashboardPage';
+import ProfilePage from '../../pages/attendee/ProfilePage';
+import NotificationsPage from '../../pages/attendee/NotificationsPage';
+import AccountSecurityPage from '../../pages/attendee/AccountSecurityPage';
 import EventsPage from '../../pages/organizer/EventsPage';
 import CheckInPage from '../../pages/check-in/CheckInPage';
 import AdminPage from '../../pages/admin/AdminPage';
@@ -35,6 +38,9 @@ export const routes: RouteObject[] = [
     children: [
       { index: true, element: <Navigate to="dashboard" replace /> },
       { path: 'dashboard', element: <DashboardPage /> },
+      { path: 'profile', element: <ProfilePage /> },
+      { path: 'notifications', element: <NotificationsPage /> },
+      { path: 'security', element: <AccountSecurityPage /> },
     ],
   },
   {
