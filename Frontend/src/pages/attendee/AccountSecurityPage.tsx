@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { UserFooter, UserHeader } from './UserChrome';
 import './UserPages.css';
 
 type ModalKind = 'logout' | 'disable' | null;
@@ -16,8 +15,7 @@ const AccountSecurityPage = () => {
   const [eventReminders, setEventReminders] = useState(true);
 
   return (
-    <div className="user-app">
-      <UserHeader />
+    <>
       <main className="user-main security-page">
         <section className="security-layout">
           <aside className="security-sidebar glass-card">
@@ -114,9 +112,7 @@ const AccountSecurityPage = () => {
           </section>
         </div>
       )}
-
-      <UserFooter />
-    </div>
+    </>
   );
 };
 

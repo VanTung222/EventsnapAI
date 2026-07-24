@@ -1,16 +1,22 @@
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
+import { AppFooter, AppHeader } from '../components/AppChrome';
+
+const authPaths = new Set(['/auth/login', '/auth/register', '/auth/forgot-password', '/auth/reset-password', '/auth/verify-email']);
 
 const PublicLayout = () => {
+  const { pathname } = useLocation();
+
+  if (authPaths.has(pathname)) {
+    return <Outlet />;
+  }
+
   return (
-    <div style={{ minHeight: '100vh', fontFamily: 'Inter, sans-serif' }}>
-      <nav style={{ padding: '1rem 2rem', borderBottom: '1px solid #eee' }}>
-        <Link to="/" style={{ marginRight: '1rem' }}>Home</Link>
-        <Link to="/login" style={{ marginRight: '1rem' }}>Login</Link>
-        <Link to="/register">Register</Link>
-      </nav>
-      <main style={{ padding: '2rem' }}>
+    <div className="app-public-shell">
+      <AppHeader variant="public" />
+      <main className="app-public-main">
         <Outlet />
       </main>
+      <AppFooter variant="public" />
     </div>
   );
 };
