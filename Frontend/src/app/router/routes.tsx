@@ -12,6 +12,7 @@ import EventDetailPage from '../../pages/public/EventDetailPage';
 import AuthAccessPage from '../../pages/public/AuthAccessPage';
 import AuthRecoveryPage from '../../pages/public/AuthRecoveryPage';
 import OrganizerApplicationPage from '../../pages/public/OrganizerApplicationPage';
+
 import DashboardPage from '../../pages/attendee/DashboardPage';
 import ProfilePage from '../../pages/attendee/ProfilePage';
 import NotificationsPage from '../../pages/attendee/NotificationsPage';
@@ -48,6 +49,7 @@ export const routes: RouteObject[] = [
       { path: 'reset-password', element: <Navigate to="/auth/reset-password" replace /> },
       { path: 'verify-email', element: <Navigate to="/auth/verify-email" replace /> },
       { path: 'organizer-apply', element: <OrganizerApplicationPage /> },
+
     ],
   },
   {

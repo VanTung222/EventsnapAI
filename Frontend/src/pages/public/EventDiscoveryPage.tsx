@@ -1,4 +1,5 @@
 ﻿import { FormEvent, useMemo, useState } from 'react';
+
 import { Link } from 'react-router-dom';
 import eventHeroImage from '../../assets/images/futuristic-colorful_event.png';
 import './EventDiscoveryPage.css';
@@ -189,6 +190,7 @@ const EventDiscoveryPage = () => {
           <Link to="/events">Khám phá</Link>
           <Link to="/auth/login">Đăng nhập</Link>
           <Link className="discovery-cta" to="/auth/register">Bắt đầu miễn phí</Link>
+
         </nav>
       </header>
 
@@ -350,3 +352,4 @@ const SkeletonGrid = () => (
 );
 
 export default EventDiscoveryPage;
+

@@ -1,4 +1,5 @@
 ﻿import { Link, useParams } from 'react-router-dom';
+
 import eventHeroImage from '../../assets/images/futuristic-colorful_event.png';
 import './EventDetailPage.css';
 
@@ -60,6 +61,7 @@ const EventDetailPage = () => {
         <nav>
           <Link to="/events">Khám phá sự kiện</Link>
           <Link to="/auth/login">Đăng nhập</Link>
+
         </nav>
       </header>
 
@@ -101,6 +103,7 @@ const EventDetailPage = () => {
               <div><dt>Hạn đăng ký</dt><dd>{event.deadline}</dd></div>
             </dl>
             <Link className="register-action" to="/auth/login">{event.action}</Link>
+
           </aside>
         </section>
 
@@ -184,9 +187,11 @@ const EventDetailPage = () => {
           <span>{event.seats}</span>
         </div>
         <Link to="/auth/login">{event.action}</Link>
+
       </div>
     </div>
   );
 };
 
 export default EventDetailPage;
+

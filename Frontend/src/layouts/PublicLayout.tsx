@@ -3,6 +3,7 @@ import { AppFooter, AppHeader } from '../components/AppChrome';
 
 const authPaths = new Set(['/auth/login', '/auth/register', '/auth/forgot-password', '/auth/reset-password', '/auth/verify-email']);
 
+
 const PublicLayout = () => {
   const { pathname } = useLocation();
 
@@ -14,6 +15,7 @@ const PublicLayout = () => {
     <div className="app-public-shell">
       <AppHeader variant="public" />
       <main className="app-public-main">
+
         <Outlet />
       </main>
       <AppFooter variant="public" />
