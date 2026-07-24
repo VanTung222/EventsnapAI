@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom';
+﻿import { Link } from 'react-router-dom';
+
 import eventHeroImage from '../../assets/images/futuristic-colorful_event.png';
 import './HomePage.css';
 
@@ -56,8 +57,9 @@ const HomePage = () => {
           <a href="#about">Giới thiệu</a>
         </nav>
         <div className="landing-auth">
-          <Link to="/login">Đăng nhập</Link>
-          <Link className="start-link" to="/register">Bắt đầu miễn phí</Link>
+          <Link to="/auth/login">Đăng nhập</Link>
+          <Link className="start-link" to="/auth/register">Bắt đầu miễn phí</Link>
+
         </div>
       </header>
 
@@ -73,7 +75,8 @@ const HomePage = () => {
               <h1>Khám phá, tạo và quản lý sự kiện thông minh hơn với AI.</h1>
               <p>Biến poster của bạn thành sự kiện thực tế chỉ trong tích tắc. Tiết kiệm 90% thời gian thiết lập với sức mạnh của trí tuệ nhân tạo.</p>
               <div className="hero-actions">
-                <Link className="primary-cta" to="/register">
+                <Link className="primary-cta" to="/auth/register">
+
                   Bắt đầu ngay
                   <span className="ms">rocket_launch</span>
                 </Link>

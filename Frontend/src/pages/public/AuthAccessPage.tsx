@@ -1,6 +1,9 @@
-import { FormEvent, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+﻿import { FormEvent, useMemo, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import eventHeroImage from '../../assets/images/register.webp';
+import { authService, type AuthResponse } from '../../services/authService';
+import { useAuthStore } from '../../stores/authStore';
+
 import './AuthPages.css';
 
 type AuthMode = 'login' | 'register';
@@ -11,6 +14,9 @@ type AuthAccessPageProps = {
 
 const AuthAccessPage = ({ mode }: AuthAccessPageProps) => {
   const isRegister = mode === 'register';
+  const navigate = useNavigate();
+  const loginToStore = useAuthStore((state) => state.login);
+
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -19,7 +25,8 @@ const AuthAccessPage = ({ mode }: AuthAccessPageProps) => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [accepted, setAccepted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [isSuccess] = useState(false);
+
   const [error, setError] = useState('');
 
   const strength = useMemo(() => {
@@ -34,7 +41,18 @@ const AuthAccessPage = ({ mode }: AuthAccessPageProps) => {
 
   const strengthClass = strength <= 1 ? 'weak' : strength === 2 ? 'medium' : strength === 3 ? 'good' : 'strong';
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const getErrorMessage = (caughtError: unknown) => {
+    const maybeError = caughtError as { response?: { data?: { message?: string } } };
+    return maybeError.response?.data?.message ?? 'Không thể kết nối máy chủ. Vui lòng thử lại.';
+  };
+
+  const handleAuthSuccess = (data: AuthResponse) => {
+    loginToStore({ token: data.accessToken, user: data.user });
+    navigate(data.redirectPath, { replace: true });
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+
     event.preventDefault();
     setError('');
 
@@ -59,7 +77,16 @@ const AuthAccessPage = ({ mode }: AuthAccessPageProps) => {
         return;
       }
 
-      setIsSuccess(true);
+      setIsSubmitting(true);
+      try {
+        const response = await authService.register({ name: fullName, email, password, role: 'attendee' });
+        handleAuthSuccess(response.data);
+      } catch (caughtError) {
+        setError(getErrorMessage(caughtError));
+      } finally {
+        setIsSubmitting(false);
+      }
+
       return;
     }
 
@@ -69,10 +96,19 @@ const AuthAccessPage = ({ mode }: AuthAccessPageProps) => {
     }
 
     setIsSubmitting(true);
-    window.setTimeout(() => {
+    try {
+      const response = await authService.login({ email, password });
+      handleAuthSuccess(response.data);
+    } catch (caughtError) {
+      setError(getErrorMessage(caughtError));
+    } finally {
       setIsSubmitting(false);
-      setError('Thông tin đăng nhập chưa chính xác. Vui lòng kiểm tra lại.');
-    }, 650);
+    }
+  };
+
+  const handleGoogleLogin = () => {
+    setError('Google Sign-In cần id_token từ Google Identity Services. Backend /api/auth/google đã sẵn sàng để nhận id_token.');
+
   };
 
   return (
@@ -102,8 +138,9 @@ const AuthAccessPage = ({ mode }: AuthAccessPageProps) => {
 
                 <section className="auth-access-card es-glass-panel">
                   <div className="auth-mode-switch" aria-label="Chuyển chế độ đăng nhập đăng ký">
-                    <Link className={!isRegister ? 'active' : ''} to="/login">Đăng nhập</Link>
-                    <Link className={isRegister ? 'active' : ''} to="/register">Đăng ký</Link>
+                    <Link className={!isRegister ? 'active' : ''} to="/auth/login">Đăng nhập</Link>
+                    <Link className={isRegister ? 'active' : ''} to="/auth/register">Đăng ký</Link>
+
                   </div>
 
                   <form className="auth-access-form" onSubmit={handleSubmit} noValidate>
@@ -161,7 +198,8 @@ const AuthAccessPage = ({ mode }: AuthAccessPageProps) => {
                     ) : (
                       <div className="es-options-row">
                         <label className="es-check-label"><input type="checkbox" /> Ghi nhớ đăng nhập</label>
-                        <Link className="es-forgot-link" to="/forgot-password">Quên mật khẩu?</Link>
+                        <Link className="es-forgot-link" to="/auth/forgot-password">Quên mật khẩu?</Link>
+
                       </div>
                     )}
 
@@ -170,17 +208,19 @@ const AuthAccessPage = ({ mode }: AuthAccessPageProps) => {
                     <div className="es-actions compact-actions">
                       <button className="es-primary-button" type="submit" disabled={isSubmitting}>
                         {isSubmitting ? <span className="mini-spinner" /> : null}
-                        <span>{isSubmitting ? 'Đang đăng nhập...' : isRegister ? 'Đăng ký' : 'Đăng nhập'}</span>
+                        <span>{isSubmitting ? (isRegister ? 'Đang đăng ký...' : 'Đang đăng nhập...') : isRegister ? 'Đăng ký' : 'Đăng nhập'}</span>
                         {!isSubmitting && <span className="ms">arrow_forward</span>}
                       </button>
                       <div className="es-divider"><span>hoặc</span></div>
-                      <button className="es-secondary-button" type="button"><span className="ms">account_circle</span><span>{isRegister ? 'Đăng ký bằng Google' : 'Đăng nhập với Google'}</span></button>
+                      <button className="es-secondary-button" type="button" onClick={handleGoogleLogin}><span className="ms">account_circle</span><span>{isRegister ? 'Đăng ký bằng Google' : 'Đăng nhập với Google'}</span></button>
+
                     </div>
                   </form>
 
                   <p className="auth-footer-text compact-footer">
                     {isRegister ? 'Đã có tài khoản? ' : 'Bạn chưa có tài khoản? '}
-                    <Link to={isRegister ? '/login' : '/register'}>{isRegister ? 'Đăng nhập ngay' : 'Đăng ký ngay'}</Link>
+                    <Link to={isRegister ? '/auth/login' : '/auth/register'}>{isRegister ? 'Đăng nhập ngay' : 'Đăng ký ngay'}</Link>
+
                   </p>
                 </section>
               </>
@@ -202,3 +242,4 @@ const AuthAccessPage = ({ mode }: AuthAccessPageProps) => {
 };
 
 export default AuthAccessPage;
+

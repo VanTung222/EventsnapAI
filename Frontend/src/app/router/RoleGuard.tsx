@@ -1,15 +1,17 @@
-import { Navigate, Outlet } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { useAuthStore } from '../../stores/authStore';
+import type { UserRole } from '../../types';
 
 type RoleGuardProps = {
-  allowedRoles: Array<'attendee' | 'organizer' | 'admin' | 'check-in'>;
-  role?: 'attendee' | 'organizer' | 'admin' | 'check-in';
+  allowedRoles: UserRole[];
 };
 
-const RoleGuard = ({ allowedRoles, role = 'attendee' }: RoleGuardProps) => {
-  const canAccess = allowedRoles.includes(role);
+const RoleGuard = ({ allowedRoles }: RoleGuardProps) => {
+  const canAccess = useAuthStore((state) => state.canAccess);
+  const location = useLocation();
 
-  if (!canAccess) {
-    return <Navigate to="/login" replace />;
+  if (!canAccess(allowedRoles)) {
+    return <Navigate to="/auth/login" replace state={{ from: location }} />;
   }
 
   return <Outlet />;

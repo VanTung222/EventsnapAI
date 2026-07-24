@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import eventHeroImage from '../../assets/images/futuristic-colorful_event.png';
-import { UserFooter, UserHeader } from './UserChrome';
 import './UserPages.css';
 
 const stats = [
@@ -52,8 +51,7 @@ const DashboardPage = () => {
   }).format(new Date());
 
   return (
-    <div className="user-app">
-      <UserHeader />
+    <>
       <main className="user-main">
         <section className="user-page-title">
           <div>
@@ -148,8 +146,7 @@ const DashboardPage = () => {
           </div>
         </section>
       </main>
-      <UserFooter />
-    </div>
+    </>
   );
 };
 

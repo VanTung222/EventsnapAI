@@ -1,5 +1,4 @@
 import { useMemo, useState } from 'react';
-import { UserFooter, UserHeader } from './UserChrome';
 import './UserPages.css';
 
 type NotificationCategory = 'all' | 'unread' | 'event' | 'account';
@@ -82,8 +81,7 @@ const NotificationsPage = () => {
   const deleteNotification = (id: number) => setHiddenIds((current) => [...current, id]);
 
   return (
-    <div className="user-app">
-      <UserHeader />
+    <>
       <main className="notification-shell">
         <section className="notification-header">
           <div>
@@ -128,8 +126,7 @@ const NotificationsPage = () => {
           </div>
         </section>
       </main>
-      <UserFooter />
-    </div>
+    </>
   );
 };
 

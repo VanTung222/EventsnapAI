@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
-import { UserFooter, UserHeader } from './UserChrome';
 import './UserPages.css';
 
 const initialProfile = {
@@ -54,8 +53,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="user-app">
-      <UserHeader />
+    <>
       <main className="user-main">
         {isDirty && <p className="dirty-warning">Bạn có thay đổi chưa lưu. Hãy lưu hồ sơ trước khi rời màn hình.</p>}
 
@@ -118,8 +116,7 @@ const ProfilePage = () => {
           </div>
         </section>
       </main>
-      <UserFooter />
-    </div>
+    </>
   );
 };
 

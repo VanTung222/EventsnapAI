@@ -77,7 +77,8 @@ const AuthRecoveryPage = ({ mode }: AuthRecoveryPageProps) => {
             </div>
             <h1 className="verify-title">Xác minh email</h1>
             <p>Email đã được xác minh thành công.</p>
-            <Link className="verify-button success" to="/login">Đăng nhập ngay</Link>
+            <Link className="verify-button success" to="/auth/login">Đăng nhập ngay</Link>
+
           </article>
 
           <article className={`verify-card ${verifyState === 'expired' ? 'is-active' : ''}`}>
@@ -125,7 +126,8 @@ const AuthRecoveryPage = ({ mode }: AuthRecoveryPageProps) => {
                 <span className="ms">arrow_forward</span>
               </button>
             </form>
-            <Link className="password-back-link" to="/login"><span className="ms">arrow_back</span> Quay lại đăng nhập</Link>
+            <Link className="password-back-link" to="/auth/login"><span className="ms">arrow_back</span> Quay lại đăng nhập</Link>
+
           </section>
         )}
 
@@ -135,7 +137,8 @@ const AuthRecoveryPage = ({ mode }: AuthRecoveryPageProps) => {
             <h1>Kiểm tra hộp thư</h1>
             <p>Nếu email tồn tại trong hệ thống, chúng tôi đã gửi hướng dẫn đặt lại mật khẩu. Vui lòng kiểm tra cả thư mục Spam.</p>
             <button className="password-ghost-button" onClick={() => setPasswordState('forgot')} type="button">Chưa nhận được? Gửi lại</button>
-            <Link className="password-back-link" to="/login"><span className="ms">arrow_back</span> Quay lại đăng nhập</Link>
+            <Link className="password-back-link" to="/auth/login"><span className="ms">arrow_back</span> Quay lại đăng nhập</Link>
+
           </section>
         )}
 
@@ -185,7 +188,8 @@ const AuthRecoveryPage = ({ mode }: AuthRecoveryPageProps) => {
             <div className="password-status-icon soft"><span className="ms">check_circle</span></div>
             <h1>Mật khẩu đã cập nhật</h1>
             <p>Tài khoản của bạn đã được bảo mật bằng mật khẩu mới. Bạn có thể đăng nhập ngay bây giờ.</p>
-            <Link className="auth-link-button" to="/login"><span className="ms">login</span> Quay lại đăng nhập</Link>
+            <Link className="auth-link-button" to="/auth/login"><span className="ms">login</span> Quay lại đăng nhập</Link>
+
           </section>
         )}
       </main>
